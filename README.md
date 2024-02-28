@@ -773,7 +773,7 @@ Two types of Authorization Credentials are used:
 
 An Authorization Credential has three parts:
 
-![](./images/verifiable_credential.png)
+![](./verifiable_credential.png)
 
 Specification and examples:
 
