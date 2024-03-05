@@ -6,7 +6,7 @@ This document describes:
 - the information standards;
 - the permitted means of authentication;
 - the permitted bases;
-- name of actors; and
+- naming of actors; and
 - the access policy.
 
 # use case identifier
@@ -17,8 +17,9 @@ The identifier of the use case is 'bgz-referral'.
 - This specification is developed and maintained by <<to do>>
 
 # Information standards
-- The content and structure of the information to be exchanged complies with the Functional Design Information Standard BgZ: https://informatiestandaarden.nictiz.nl/wiki/BgZ:V1.0_BgZ_MSZ_Informatiestandaard
-- The structure of the data to be exchanged and the data interfaces to be used complies with the Technical Design Information Standard BgZ: https://informatiestandaarden.nictiz.nl/wiki/BgZ:V1.0_BgZ_2017_Technical_IG
+- The content and structure of the information to be exchanged complies with the Functioneel Ontwerp BgZ medisch-specialistische zorg 1.0: https://informatiestandaarden.nictiz.nl/wiki/BgZ:V1.0_BgZ_MSZ_Informatiestandaard
+- The structure of the data to be exchanged and the data interfaces to be used comply with the BgZ medisch-specialistische zorg Technical Implementation Guide 1.0: https://informatiestandaarden.nictiz.nl/wiki/BgZ:V1.0_BgZ_2017_Technical_IG
+- Unstructured documents containing health information are exchanged using the MedMij FHIR Implementation Guide: PDF/A 3.0.37L https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_PDFA#List_of_profiles
 
 # Permitted means of authentication of healthcare professionals
 In order to share data securely between different healthcare providers, cross-organizatonal authentication of healthcare professionals is essential. For this use case the following means of healthcare professionals are permitted:
@@ -36,7 +37,15 @@ The following evidence is allowed for 'implicit consent':
 - verbal consent given to the referrer
 
 # Naming of actors
-to do (maybe not necessary)
+
+| Actor name Notified Pull                  | Actor name BgZ referral                           |
+|-------------------------------------------|---------------------------------------------------|
+| Placer                                    | Referrer (in Dutch: "verwijzer")                  |
+| Filler                                    | New practitioner (in Dutch: "nieuwe behandelaar") |
+| Placer organization                       | Sending Organization                              |
+| Filler organization                       | Receiver Organization                             |
+| ...                                       | ...                                               |
+| ...                                       | ...                                               |
 
 # Data availability
 - Every party that offers services for the use case bgz-referral is responsible for the availability of its own infrastructure, the system and the Nuts-node.
@@ -175,11 +184,13 @@ The credential must meet the following requirements:
 The Sending System must check whether the used access token provides access to the requested Task resource. Both the Sending Organization and Receiving Organization are included when requesting the access token.
 
 The BgZ Sender policy does not provide access to resources other than those resources listed in the credential. Two distinct Authorization Credentials will be created: one for the Task resources and one for the BgZ resources.
-The `resources` field of the Authorization Credential for the BgZ resources must contain the following values:
+
+#### Resources
+The `resources` field in the Authorization Credential must contain at least one element that contains a relative path to a BgZ FHIR resource:
 
 ```json
 {
-  "path": "/[path][/$operation][?queries]",
+  "path": "/[type]/[/$operation][?query]",
   "operations": [
     "search"
   ],
@@ -189,6 +200,32 @@ The `resources` field of the Authorization Credential for the BgZ resources must
 
 For all FHIR *search* operations that are part of the [MedMij FHIR Implementation Guide: BgZ](https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017#PHR:_request_message), a rule must be included.
 `/[path]` must be replaced by the FHIR type. `/[$operation]` must be replaced by a possibly mandatory operation, e.g., `$lastn`. `[?queries]` must be replace by possibly mandatory query parameters, e.g., `code=http://snomed.info/sct|365508006`.
+
+The following resource types may be included in the Authorization Credential:
+
+- Patient
+- Coverage
+- Consent
+- Condition
+- Observation
+- NutritionOrder
+- Flag
+- AllergyIntolerance
+- MedicationStatement
+- MedicationRequest
+- MedicationDispense
+- DeviceUseStatement
+- Immunization
+- Procedure
+- Encounter
+- ProcedureRequest
+- ImmunizationRecommendation
+- DeviceRequest
+- Appointment
+- DocumentReference
+- Binary
+
+Please see the [FHIR Implementation Guide BgZ](https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017#PHR:_request_message) for more details.
 
 When requesting the access token, the credential must be included in the `vcs` claim and meet the above-mentioned requirements.
 
@@ -220,41 +257,7 @@ Access token lifetime: 300 seconds (5 minutes).
 
 ### Authentication Contract BgZ FHIR Resources
 
-The `resources` field in the Authorization Credential must contain at least one element that contains a relative path to a BgZ FHIR resource:
-
-```json
-{
-  "path": "/[type]/[/$operation][?query]",
-  "operations": [
-    "search"
-  ],
-  "userContext": true
-}
-```
-
-The following resource types may be included in the Authorization Credential:
-
-- Patient
-- Coverage
-- Consent
-- Condition
-- Observation
-- NutritionOrder
-- Flag
-- AllergyIntolerance
-- MedicationStatement
-- MedicationRequest
-- MedicationDispense
-- DeviceUseStatement
-- Immunization
-- Procedure
-- Encounter
-- ProcedureRequest
-- ImmunizationRecommendation
-- DeviceRequest
-- Appointment
-
-Please see the [FHIR Implementation Guide BgZ](https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017#PHR:_request_message) for more details.
+For access to the BgZ FHIR-resource(s) (`"userContext": true`), user details have to be included in the `usi` claim.
 
 ### BgZ Resources Access Control
 
