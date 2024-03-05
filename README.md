@@ -1,7 +1,4 @@
-# nuts-use-case-profile-bgz-referral
-The document describes how to use the Nuts-specifications in the context of a medical specialist referral, commonly known as a "BgZ-referral"
-
-## Introduction
+# Introduction
 This document describes how to use the Nuts-specifications in the context of a medical specialist referral, commonly known as a "BgZ-referral". This includes the specific agreements that, in addition to the specification '[TA-Notified-Pull-on-Nuts](https://github.com/jorritspee/TA-Notified-Pull-on-Nuts)', apply to the use case of medical specialist referrals.
 This document describes:
 - the identifier of the use case;
@@ -12,24 +9,24 @@ This document describes:
 - name of actors; and
 - the access policy.
 
-## use case identifier
+# use case identifier
 The identifier of the use case is 'bgz-referral'.
 
-## Governance
-to do
+# Governance
 - Information standards are developed and maintained by standardization organization Nictiz
+- This specification is developed and maintained by <<to do>>
 
-## Information standards
+# Information standards
 - The content and structure of the information to be exchanged complies with the Functional Design Information Standard BgZ: https://informatiestandaarden.nictiz.nl/wiki/BgZ:V1.0_BgZ_MSZ_Informatiestandaard
 - The structure of the data to be exchanged and the data interfaces to be used complies with the Technical Design Information Standard BgZ: https://informatiestandaarden.nictiz.nl/wiki/BgZ:V1.0_BgZ_2017_Technical_IG
 
-## Permitted means of authentication of healthcare professionals
+# Permitted means of authentication of healthcare professionals
 In order to share data securely between different healthcare providers, cross-organizatonal authentication of healthcare professionals is essential. For this use case the following means of healthcare professionals are permitted:
 - EmployeeID (support is mandatory): as specified in [RFC019 Employee Identity Authentication Means](https://nuts-foundation.gitbook.io/drafts/rfc/rfc019-employee-identity-means)https://nuts-foundation.gitbook.io/drafts/rfc/rfc019-employee-identity-means
 - IRMA/Yivi (support is optional): as specified in [RFC002 Authentication token chapter 7.1](https://nuts-foundation.gitbook.io/drafts/rfc/rfc002-authentication-token#id-7.1.-irma)https://nuts-foundation.gitbook.io/drafts/rfc/rfc002-authentication-token#id-7.1.-irma
 - UZI smartcard (support is optional): as specified in [RFC002 Authentication token chapter 7.2](https://nuts-foundation.gitbook.io/drafts/rfc/rfc002-authentication-token#id-7.2-uzi)https://nuts-foundation.gitbook.io/drafts/rfc/rfc002-authentication-token#id-7.2-uzi
 
-## Permitted legal bases and evidence
+# Permitted legal bases and evidence
 The following legal bases are supported for the use case medical specialist referral:
 - 'implicit consent'
 - 'explicit prior consent': not necessary because in a referral situation consent can be implied
@@ -38,34 +35,33 @@ The following evidence is allowed for 'implicit consent':
 - registration in the source system used by the referrer
 - verbal consent given to the referrer
 
-## Naming of actors
+# Naming of actors
 to do (maybe not necessary)
 
-## Data availability
+# Data availability
 - Every party that offers services for the use case bgz-referral is responsible for the availability of its own infrastructure, the system and the Nuts-node.
 - Data holders ensure the availability of all components that are part of TA-Notified-Pull-on-Nuts in accordance with the requirements for Availability, Integrity and -Confidentiality as included in the article <<TO DO WAAR??>>.
 
-## Access Policy
-
+# Access Policy
 One aspect of a Nuts Application involves describing authorizations to certain resources. Authorizations are described in an access policy. It is the responsibility of the Sending System to adhere to the policy when resources are being requested.
 
 This Nuts Application involves two different access policies. Most importantly, the BgZ Sender policy, since it controls access to actual data. Furthermore, there is the BgZ Receiver policy which controls notification access.
 
-### The BgZ Receiver Policy
+## The BgZ Receiver Policy
 
 The BgZ Receiver policy only describes access to the Notification Task endpoint. When requesting an access token from the authorization server, no [Nuts Authorization Credentials](https://nuts-foundation.gitbook.io/rfc/rfc014-authorization-credential) are required. No user details are required
 either. The `vcs` and `usi` claims in the [JWT](https://nuts-foundation.gitbook.io/rfc/rfc003-oauth2-authorization#id-4.2.2-payload) may be left empty. The `purposeOfUse` claim must contain `bgz-receiver`.
 
 The Receiving System must check whether an HTTP POST request is performed to the Notification Task endpoint. This is the relative path that is registered under the `notification` field in the `bgz-receiver` service.
 
-### The BgZ Sender Policy
+## The BgZ Sender Policy
 
 The BgZ Sender policy describes rules for both personal and non-personal resources. For non-personal resources, the same applies as for the BgZ Receiver policy: the `vcs` and `usi` claims may be left out from
 the [JWT](https://nuts-foundation.gitbook.io/rfc/rfc003-oauth2-authorization#id-4.2.2-payload).
 
-### Non-Personal Resources (Tasks)
+## Non-Personal Resources (Tasks)
 
-#### Authorization Credential Task
+### Authorization Credential Task
 
 Retrieving the Workflow Task falls under the category of non-personal resources. Since this is about accessing a single resource, a [Nuts Authorization Credential](https://nuts-foundation.gitbook.io/rfc/rfc014-authorization-credential) is required.
 The credential must meet the following requirements:
@@ -107,7 +103,7 @@ When requesting the access token, the credential must be included in the `vcs` c
 
 Part of the BgZ referral is that the Receiving Organization updates the Task status. This requires a PUT request.
 
-#### Normative Expiration Date Task Authorization
+### Normative Expiration Date Task Authorization
 
 When creating an Authorization Credential, an end date must be set on the record using the `expirationDate` field. The end date must be primarily based on the patient's own preferences.
 The practitioner needs to ask the patient for the preferred duration of the consent. When the patient's preferences with regard to the duration of the consent are not registered, the following norms apply:
@@ -115,22 +111,22 @@ The practitioner needs to ask the patient for the preferred duration of the cons
 - In case of "explicit prior consent" the end date of the authorization equals the current date plus 14 days;
 - In case of "implied consent" the end date of the authorization equals the current date plus 14 days.
 
-#### Revoking the Task Authorization
+### Revoking the Task Authorization
 
 The Task resource authorization does not have to be revoked; it can simply expire since the Task contains no personal data.
 
-#### Task Access Token
+### Task Access Token
 
 When requesting the access token, the Authorization Credential must be included and meet the above-mentioned requirements. No user details have to be included in the `usi` claim.
 The `service` field in the credential must equal `bgz-sender`.
 
 Access token lifetime: 300 seconds (5 minutes).
 
-#### Task Authentication Contract
+### Task Authentication Contract
 
-For access to the Task FHIR resource(s) (`"userContext": false`), no user details have to be included in the `usi` claim.
+For access to the Task FHIR-resource(s) (`"userContext": false`), no user details have to be included in the `usi` claim.
 
-#### Task Resource Field
+### Task Resource Field
 
 The `resources` field in the Authorization Credential must contain at least one element that contains a relative path to a FHIR Task resource:
 
@@ -147,7 +143,7 @@ The `resources` field in the Authorization Credential must contain at least one 
 
 The following resource types may be included in the Authorization Credential: Task. Please see [Appendix: Workflow Task](#appendix-workflow-task) for more details.
 
-#### Task Access Control
+### Task Access Control
 
 The Sending System must only provide access to exactly those resource that are listed in the `resources` field in the Authorization Credential.
 When the Sending System processes an incoming request regarding a Task, access must be provided based on the resources listed in the Authorization Credential to:
@@ -156,14 +152,14 @@ When the Sending System processes an incoming request regarding a Task, access m
 
 Data access is not controlled by practitioner role.
 
-#### Task Search Narrowing
+### Task Search Narrowing
 
 The Sending System must not apply search narrowing to incoming requests for Task resources.
 The Receiving System must perform Task requests in the form of read requests on specific Task resource instances (conform `/Task/[id]`).
 
-### Personal Resources (BgZ Resources)
+## Personal Resources (BgZ Resources)
 
-#### Authorization Credential BgZ Resources
+### Authorization Credential BgZ Resources
 
 Pulling BgZ referral resources and all related data requires a registered authorization in the form of a [Nuts Authorization Credential](https://nuts-foundation.gitbook.io/rfc/rfc014-authorization-credential).
 The credential must meet the following requirements:
@@ -196,7 +192,7 @@ For all FHIR *search* operations that are part of the [MedMij FHIR Implementatio
 
 When requesting the access token, the credential must be included in the `vcs` claim and meet the above-mentioned requirements.
 
-#### Normative End Date BgZ Resources Authorization
+### Normative End Date BgZ Resources Authorization
 
 When creating an Authorization Credential, an end date must be set on the record using the `expirationDate` field. The end date must be primarily based on the patient's own preferences.
 The practitioner needs to ask the patient for the preferred duration of the consent. When the patient's preferences with regard to the duration of the consent are not registered, the following norms apply:
@@ -204,7 +200,7 @@ The practitioner needs to ask the patient for the preferred duration of the cons
 - In case of "explicit prior consent" the end date of the authorization equals the current date plus 14 days;
 - In case of "implied consent" the end date of the authorization equals the current date plus 14 days.
 
-#### Revoking the BgZ Resources Authorization
+### Revoking the BgZ Resources Authorization
 
 When the BgZ referral is complete, it is no longer necessary for the Receiving Organization to pull resources. The Authorization Credential for the BgZ resources can then be revoked.
 
@@ -215,14 +211,14 @@ State machine for revoking authorization for BgZ resources:
 - When the Receiving Organization forgets to complete the process, the Sending Organization may:
     - revoke the Authorization Credential for the BgZ FHIR Resources after a reasonable period of time.
 
-#### Access Token BgZ FHIR Resources
+### Access Token BgZ FHIR Resources
 
 When requesting the access token, the Authorization Credential must be included and meet the above-mentioned requirements. User details must be included in the `usi` claim.
 The `service` field in the credential must equal `bgz-sender`.
 
 Access token lifetime: 300 seconds (5 minutes).
 
-#### Authentication Contract BgZ FHIR Resources
+### Authentication Contract BgZ FHIR Resources
 
 The `resources` field in the Authorization Credential must contain at least one element that contains a relative path to a BgZ FHIR resource:
 
@@ -260,7 +256,7 @@ The following resource types may be included in the Authorization Credential:
 
 Please see the [FHIR Implementation Guide BgZ](https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017#PHR:_request_message) for more details.
 
-#### BgZ Resources Access Control
+### BgZ Resources Access Control
 
 The Sending System must only provide access to exactly those resource that are listed in the `resources` field in the Authorization Credential.
 When the Sending System processes an incoming request regarding BgZ resources, access must be provided based on the resources listed in the Authorization Credential to:
@@ -270,7 +266,7 @@ When the Sending System processes an incoming request regarding BgZ resources, a
 
 Data access (in this particular Nuts Application) is not controlled by practitioner role.
 
-#### Search Narrowing
+### Search Narrowing
 
 The Sending System must apply search narrowing. For incoming requests (e.g., `/Patient`) the following applies:
 
@@ -304,9 +300,9 @@ The second column describes how the requests must be executed by the Sending Sys
 | GET [base]/DeviceRequest?status=active&_include=DeviceRequest:device                     | GET [base]/DeviceRequest?status=active&_include=DeviceRequest:device<b>&patient=http://fhir.nl/fhir/NamingSystem/bsn\|[BSN from Authorization Credential]</b>                        |
 | GET [base]/Appointment?status=booked,pending,proposed                                    | GET [base]/Appointment?status=booked,pending,proposed<b>&patient=http://fhir.nl/fhir/NamingSystem/bsn\|[BSN from Authorization Credential]</b>                                       |
 
-## Appendix: Notification Task
+# Appendix: Notification Task
 
-### Example
+## Example
 
 ```json
 {
@@ -373,15 +369,15 @@ The second column describes how the requests must be executed by the Sending Sys
 }
 ```
 
-## Appendix: Workflow Task
+# Appendix: Workflow Task
 
 The Task resource that represents the workflow for a referral must ultimately be determined by Nictiz. The basis is the [eOverdracht Task](https://simplifier.net/packages/nictiz.fhir.nl.stu3.eoverdracht/1.0.0-rc5/files/588946).
 
-### Workflow Task Input Elements
+## Workflow Task Input Elements
 
 The Task input type must be included in an encoded way. One or two codes must be included depending on the context.
 
-#### Complete BgZ Section
+### Complete BgZ Section
 
 In case of a complete section from the BgZ document, only the LOINC code of the section is included. E.g., for Problem:
 
@@ -402,7 +398,7 @@ In case of a complete section from the BgZ document, only the LOINC code of the 
 
 In the `valueString` the (relative of absolute) address of the REST endpoint of the FHIR search must be included.
 
-#### Subset of a BgZ Section
+### Subset of a BgZ Section
 
 When the input is a subset of a BgZ section, the LOINC code of the BgZ section must be included as well as the SNOMED CT code that further specifies the resource. E.g., for LivingSituation:
 
@@ -426,13 +422,13 @@ When the input is a subset of a BgZ section, the LOINC code of the BgZ section m
 }
 ```
 
-#### LOINC and SNOMED CT Code Table
+### LOINC and SNOMED CT Code Table
 
 Please see the following table for detail codes:
 
 [Codetabel Workflow Task BgZ-verwijzing - Google Spreadsheets](https://docs.google.com/spreadsheets/d/11AJPwdgxCq1rxxjgFDgYK7z7rWlJTVpL2rQ21ipurj4/edit?usp=sharing)
 
-### Example
+## Example
 
 ```json
 {
@@ -764,7 +760,7 @@ Please see the following table for detail codes:
 }
 ```
 
-## Appendix: Authorization Credentials
+# Appendix: Authorization Credentials
 
 Two types of Authorization Credentials are used:
 
@@ -779,7 +775,7 @@ Specification and examples:
 
 [RFC014 Nuts Authorization Credential - V1](https://nuts-foundation.gitbook.io/rfc/rfc014-authorization-credential#id-12.-examples)
 
-### Credential Metadata
+## Credential Metadata
 
 The metadata is the same for both types of credentials.
 
@@ -800,11 +796,11 @@ The metadata is the same for both types of credentials.
 }
 ```
 
-### Claims
+## Claims
 
 Claims must be included in the `credentialSubject` field.
 
-#### Workflow Task Credential Subject
+### Workflow Task Credential Subject
 
 ```json
 {
@@ -823,7 +819,7 @@ Claims must be included in the `credentialSubject` field.
 }
 ```
 
-#### Issue Workflow Task Authorization Credential
+### Issue Workflow Task Authorization Credential
 
 ```http request
 POST {{node}}/internal/vcr/v2/issuer/vc
@@ -850,7 +846,7 @@ Content-Type: application/json
 }
 ```
 
-### BgZ Resources Credential Subject
+## BgZ Resources Credential Subject
 
 ```json
 {
@@ -893,7 +889,7 @@ Content-Type: application/json
 }
 ```
 
-#### Issue BgZ Resources Authorization Credential
+### Issue BgZ Resources Authorization Credential
 
 ```http request
 POST {{node}}/internal/vcr/v2/issuer/vc
@@ -920,7 +916,7 @@ Content-Type: application/json
 }
 ```
 
-### Proof
+## Proof
 
 The `proof` section is created automatically by the Nuts node conform [RFC011](https://nuts-foundation.gitbook.io/rfc/rfc011-verifiable-credential#id-3.2.1-jsonwebsignature2020).
 
