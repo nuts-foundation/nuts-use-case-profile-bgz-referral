@@ -247,10 +247,14 @@ When the BgZ referral is complete, it is no longer necessary for the Receiving O
 
 State machine for revoking authorization for BgZ resources:
 
-- When the Task status gets updated to `completed`, then
-    - the Sending Organization must revoke the Authorization Credential for the BgZ resources.
-- When the Receiving Organization forgets to complete the process, the Sending Organization may:
-    - revoke the Authorization Credential for the BgZ FHIR Resources after a reasonable period of time.
+| Status      | Comment                                                                                                                                                                     |
+|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `requested` | Notification is sent                                                                                                                                                        |
+| `received`  | Receiving Organization has received request                                                                                                                                 |
+| `accepted`  | When incoming request is accepted                                                                                                                                           |
+| `rejected`  | When Receiving Organization rejects referral → PUT task.status, Sending Organization should kill Authorization Credential                                                   |
+| `cancelled` | Sending Organization cancels referral, or Receiving Organization cancels after first accepting → PUT task.status, Sending Organization should kill Authorization Credential |
+| `completed` | When treatment at Receiving Organization finishes → PUT task.status, Sending Organization should kill Authorization Credential                                              |                                                                                                      |
 
 ### Access Token BgZ FHIR Resources
 
