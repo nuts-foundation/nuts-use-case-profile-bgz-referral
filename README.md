@@ -203,27 +203,29 @@ For all FHIR *search* operations that are part of the [MedMij FHIR Implementatio
 
 The following resource types may be included in the Authorization Credential:
 
-- Patient
-- Coverage
-- Consent
-- Condition
-- Observation
-- NutritionOrder
-- Flag
-- AllergyIntolerance
-- MedicationStatement
-- MedicationRequest
-- MedicationDispense
-- DeviceUseStatement
-- Immunization
-- Procedure
-- Encounter
-- ProcedureRequest
-- ImmunizationRecommendation
-- DeviceRequest
-- Appointment
-- DocumentReference
-- Binary
+| Resource Type              | Operations |
+|----------------------------|------------|
+| Patient                    | Read       |
+| Coverage                   | Search     |
+| Consent                    | Search     |
+| Condition                  | Search     |
+| Observation                | Search     |
+| NutritionOrder             | Search     |
+| Flag                       | Search     |
+| AllergyIntolerance         | Search     |
+| MedicationStatement        | Search     |
+| MedicationRequest          | Search     |
+| MedicationDispense         | Search     |
+| DeviceUseStatement         | Search     |
+| Immunization               | Search     |
+| Procedure                  | Search     |
+| Encounter                  | Search     |
+| ProcedureRequest           | Search     |
+| ImmunizationRecommendation | Search     |
+| DeviceRequest              | Search     |
+| Appointment                | Search     |
+| DocumentReference          | Read       |
+| Binary                     | Read       |
 
 Please see the [FHIR Implementation Guide BgZ](https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017#PHR:_request_message) for more details.
 
