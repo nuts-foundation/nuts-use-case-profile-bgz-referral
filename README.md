@@ -13,6 +13,7 @@ This document describes:
 - the permitted means of authentication;
 - the permitted bases; and
 - the access policy.
+
 This video gives a nice overview of the use case BgZ referral: https://youtu.be/Ms18lL1Z204?feature=shared&t=1511
 
 # use case identifier
