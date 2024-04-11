@@ -228,6 +228,8 @@ The following resource types may be included in the Authorization Credential:
 | Binary                     | Read       |
 
 Please see the [FHIR Implementation Guide BgZ](https://informatiestandaarden.nictiz.nl/wiki/MedMij:V2020.01/FHIR_BGZ_2017#PHR:_request_message) for more details.
+Moreover, please note that resources of type Binary should only be included in the Authorization Credential and not in the Workflow Task
+(resources of type DocumentReference should be included in the Workflow Task, which refer to Binary resources).
 
 When requesting the access token, the credential must be included in the `vcs` claim and meet the above-mentioned requirements.
 
