@@ -1,3 +1,9 @@
+# Colofon
+
+|Version|1.00|
+|:------|:---|
+|Authors|Christian Spruijt (SDB Groep), Jorrit Spee (Tenzinger, Santeon)|
+
 # Introduction
 This document describes how to use the Nuts-specifications in the context of a medical specialist referral, commonly known as a "BgZ-referral". This includes the specific agreements that, in addition to the specification '[Application on Nuts Notified](https://github.com/jorritspee/Application-on-Nuts-Notified-Pull)', apply to the use case of medical specialist referrals.
 This document describes:
