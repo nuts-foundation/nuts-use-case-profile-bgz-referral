@@ -1,12 +1,11 @@
 # Introduction
-This document describes how to use the Nuts-specifications in the context of a medical specialist referral, commonly known as a "BgZ-referral". This includes the specific agreements that, in addition to the specification '[TA-Notified-Pull-on-Nuts](https://github.com/jorritspee/TA-Notified-Pull-on-Nuts)', apply to the use case of medical specialist referrals.
+This document describes how to use the Nuts-specifications in the context of a medical specialist referral, commonly known as a "BgZ-referral". This includes the specific agreements that, in addition to the specification '[Application on Nuts Notified](https://github.com/jorritspee/Application-on-Nuts-Notified-Pull)', apply to the use case of medical specialist referrals.
 This document describes:
 - the identifier of the use case;
 - the governance;
 - the information standards;
 - the permitted means of authentication;
-- the permitted bases;
-- naming of actors; and
+- the permitted bases; and
 - the access policy.
 
 # use case identifier
@@ -33,23 +32,12 @@ The following legal bases are supported for the use case medical specialist refe
 - 'explicit prior consent': not necessary because in a referral situation consent can be implied
 
 The following evidence is allowed for 'implicit consent':
-- registration in the source system used by the referrer
-- verbal consent given to the referrer
-
-# Naming of actors
-
-| Actor name Notified Pull                  | Actor name BgZ referral                           |
-|-------------------------------------------|---------------------------------------------------|
-| Placer                                    | Referrer (in Dutch: "verwijzer")                  |
-| Filler                                    | New practitioner (in Dutch: "nieuwe behandelaar") |
-| Placer organization                       | Sending Organization                              |
-| Filler organization                       | Receiver Organization                             |
-| ...                                       | ...                                               |
-| ...                                       | ...                                               |
+- registration in the source system used by the Sending Organization
+- verbal consent given to the Sending Organization
 
 # Data availability
 - Every party that offers services for the use case bgz-referral is responsible for the availability of its own infrastructure, the system and the Nuts-node.
-- Data holders ensure the availability of all components that are part of TA-Notified-Pull-on-Nuts in accordance with the requirements for Availability, Integrity and -Confidentiality as included in the article <<TO DO WAAR??>>.
+- Data holders ensure the availability of all components that are part of TA-Notified-Pull-on-Nuts in accordance with the requirements for Availability, Integrity and -Confidentiality as included in {TO DO}.
 
 # Access Policy
 One aspect of a Nuts Application involves describing authorizations to certain resources. Authorizations are described in an access policy. It is the responsibility of the Sending System to adhere to the policy when resources are being requested.
