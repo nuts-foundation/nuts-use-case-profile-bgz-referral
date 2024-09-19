@@ -1,6 +1,6 @@
 # Colofon
 
-|Version|1.00|
+|Version|1.1.0|
 |:------|:---|
 |Authors|Christian Spruijt (SDB Groep), Jorrit Spee (Tenzinger, Santeon)|
 
@@ -398,7 +398,7 @@ In case of a complete section from the BgZ document, only the LOINC code of the 
       }
     ]
   },
-  "valueString": "/Condition"
+  "valueString": "Condition"
 }
 ```
 
@@ -424,7 +424,7 @@ When the input is a subset of a BgZ section, the LOINC code of the BgZ section m
       }
     ]
   },
-  "valueString": "/Observation/$lastn?code=http://snomed.info/sct|365508006"
+  "valueString": "Observation/$lastn?code=http://snomed.info/sct|365508006"
 }
 ```
 
